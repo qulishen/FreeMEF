@@ -1,7 +1,7 @@
 <p align="center">
   <img src="logo.png" alt="FreeMEF Logo" width="200"/>
 </p>
-<h1 align="center">🎬 FreeMEF: Breaking the Bracket for Multi-Exposure Fusion 🚀</h1>
+<h1 align="center">🎬 There and Back Again: A Flexible-Frame Transformer for Multi-Exposure Fusion 🚀</h1>
 
 <p align="center">
   <a href="README.md"><img src="https://img.shields.io/badge/Language-English-blue" alt="English"></a>
@@ -12,11 +12,11 @@
 
 ## 🎯 Overview
 
-|                |                                                                                                                                                              |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 📄 **Paper**   | FreeMEF: A Flexible-Frame Transformer for Multi-Exposure Fusion                                                                                              |
-| 💡 **Idea**    | Recurrent State Space Module (RSSM) aggregates an arbitrary number of exposures; Global Feature Guidance Module (GFGM) stabilizes over/under-exposed regions |
-| ✨ **Benefit** | Train & infer with any frame count/order—no retraining or architecture changes; SOTA quality across benchmarks and devices                                   |
+|                |                                                                                                                                                             |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 📄 **Paper**   | There and Back Again: A Flexible-Frame Transformer for Multi-Exposure Fusion                                                                                |
+| 💡 **Idea**    | Recurrent State Space Module (RSSM) aggregates an arbitrary number of exposures; Global Feature Guidance Block (GFGB) stabilizes over/under-exposed regions |
+| ✨ **Benefit** | Train & infer with any frame count/order—no retraining or architecture changes; SOTA quality across benchmarks and devices                                  |
 
 ## 🛠️ Setup
 
@@ -88,14 +88,14 @@ CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=XXXX \
 
 ### 📋 Key Arguments
 
-| Argument                  | Description                                          |
-| ------------------------- | ---------------------------------------------------- |
-| `--weights`               | 📦 Checkpoint path                                   |
+| Argument                  | Description                                       |
+| ------------------------- | ------------------------------------------------- |
+| `--weights`               | 📦 Checkpoint path                                |
 | `--opt`                   | ⚙️ Inference yaml (default `options/FreeMEF.yml`) |
 | `--arch`                  | 🏗️ Network name (default `FreeMEF`)               |
-| `--input_dir`             | 📁 Root of input sequences                           |
-| `--result_dir`            | 📤 Output directory                                  |
-| `--tile`, `--tile_stride` | 🧩 Enable tiling to save VRAM                        |
+| `--input_dir`             | 📁 Root of input sequences                        |
+| `--result_dir`            | 📤 Output directory                               |
+| `--tile`, `--tile_stride` | 🧩 Enable tiling to save VRAM                     |
 
 ### 🎞️ Automatic Frame Selection
 

@@ -2,7 +2,7 @@
   <img src="logo.png" alt="FreeMEF Logo" width="200"/>
 </p>
 
-<h1 align="center">🎬 FreeMEF: Breaking the Bracket for Multi-Exposure Fusion 🚀</h1>
+<h1 align="center">🎬 There and Back Again: A Flexible-Frame Transformer for Multi-Exposure Fusion 🚀</h1>
 
 <p align="center">
   <a href="README.md"><img src="https://img.shields.io/badge/Language-English-blue" alt="English"></a>
@@ -15,8 +15,8 @@
 
 |                 |                                                                                                 |
 | --------------- | ----------------------------------------------------------------------------------------------- |
-| 📄 **论文**     | FreeMEF: Breaking the Bracket for Multi-Exposure Fusion 🚀                                   |
-| 💡 **核心思想** | 循环状态空间模块 (RSSM) 可聚合任意数量的曝光帧；全局特征引导模块 (GFGM) 稳定过曝/欠曝区域       |
+| 📄 **论文**     | There and Back Again: A Flexible-Frame Transformer for Multi-Exposure Fusion 🚀                                   |
+| 💡 **核心思想** | 循环状态空间模块 (RSSM) 可聚合任意数量的曝光帧；全局特征引导模块 (GFGB) 稳定过曝/欠曝区域       |
 | ✨ **优势**     | 可使用任意帧数/顺序进行训练和推理，无需重新训练或修改架构；在各种基准测试和设备上达到 SOTA 效果 |
 
 ## 🛠️ 环境配置
