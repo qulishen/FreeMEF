@@ -15,7 +15,7 @@
 
 |                 |                                                                                                 |
 | --------------- | ----------------------------------------------------------------------------------------------- |
-| 📄 **论文**     | There and Back Again: A Flexible-Frame Transformer for Multi-Exposure Fusion 🚀                                   |
+| 📄 **论文**     | There and Back Again: A Flexible-Frame Transformer for Multi-Exposure Fusion 🚀                 |
 | 💡 **核心思想** | 循环状态空间模块 (RSSM) 可聚合任意数量的曝光帧；全局特征引导模块 (GFGB) 稳定过曝/欠曝区域       |
 | ✨ **优势**     | 可使用任意帧数/顺序进行训练和推理，无需重新训练或修改架构；在各种基准测试和设备上达到 SOTA 效果 |
 
@@ -64,7 +64,7 @@ pip install -r requirements.txt
 
 ## 📂 数据集
 
-> 🔗 数据集下载链接：[Google Drive](https://drive.google.com/file/d/1Tg0xX2yUhtSUyt0rzfOHi1NekWiBP9zA/view?usp=sharing)
+> 🔗 数据集下载链接：[Kaggle](https://www.kaggle.com/datasets/lishenqu/freemef/data)
 
 将数据集放置在 `datasets/` 目录下，按序列结构组织：
 

@@ -63,7 +63,7 @@ pip install -r requirements.txt
 
 ## 📂 Datasets
 
-> 🔗 Dataset download links: [Google Drive](https://drive.google.com/file/d/1Tg0xX2yUhtSUyt0rzfOHi1NekWiBP9zA/view?usp=sharing)
+> 🔗 Dataset download links: [Kaggle](https://www.kaggle.com/datasets/lishenqu/freemef/data)
 
 Place datasets under `datasets/` with sequence-based structure:
 
