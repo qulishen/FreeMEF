@@ -20,32 +20,50 @@
 
 ## 🛠️ Setup
 
-### 1️⃣ Set Path
+> ✅ Tested on Ubuntu + A100-80GB, Python 3.10, PyTorch 2.7.1 (CUDA 12.6).
+
+### 1️⃣ Create the Environment
 
 ```bash
-export PYTHONPATH=<ABS_PATH>:$PYTHONPATH
+# Create & activate a clean Python 3.10 environment
+conda create -n freemef python=3.10 -y
+conda activate freemef
+
+# Enter the repo and make it importable (required for distributed training)
+cd FreeMEF
+export PYTHONPATH=$(pwd):$PYTHONPATH
 ```
 
-### 2️⃣ Install Dependencies
-
-- 🔥 Choose a matching PyTorch/CUDA build
-- 🐍 Install `mamba_ssm` wheel (matching torch/CUDA)
-- 👁️ Use `opencv-python-headless` instead of `opencv-python`
-- 📦 Install additional packages:
+### 2️⃣ Install PyTorch (match your CUDA)
 
 ```bash
-pip install timm scipy einops accelerate lmdb staracc_cv ftfy tqdm Pillow tensorboard
+# Example: CUDA 12.6 build. Adjust the index-url to your local CUDA version.
+pip install torch==2.7.1 torchvision==0.22.1 torchaudio==2.7.1 \
+  --index-url https://download.pytorch.org/whl/cu126
 ```
 
-- 📋 Project dependencies:
+### 3️⃣ Install `mamba_ssm` (match torch/CUDA)
+
+```bash
+# Option A: install from PyPI (compiles the CUDA kernels, slower)
+pip install mamba_ssm==2.2.6.post3
+
+# Option B (recommended): install a prebuilt wheel matching your torch/CUDA/python
+# Download from the official release page: https://github.com/state-spaces/mamba/releases
+pip install mamba_ssm-2.2.6.post3+cu12torch2.7cxx11abiTRUE-cp310-cp310-linux_x86_64.whl
+```
+
+### 4️⃣ Install the Remaining Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
+> 💡 On headless servers keep `opencv-python-headless` (already pinned in `requirements.txt`) instead of `opencv-python`.
+
 ## 📂 Datasets
 
-> 🔗 Dataset download links: **TODO**
+> 🔗 Dataset download links: [Google Drive](https://drive.google.com/file/d/1Tg0xX2yUhtSUyt0rzfOHi1NekWiBP9zA/view?usp=sharing)
 
 Place datasets under `datasets/` with sequence-based structure:
 
@@ -70,8 +88,23 @@ datasets/
 
 ## 🏋️ Training
 
+**One-click (recommended):**
+
 ```bash
-CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=XXXX \
+bash train.sh
+```
+
+Override GPUs / port / config via environment variables:
+
+```bash
+# Train on 4 GPUs with a custom port and config
+GPUS=0,1,2,3 PORT=4321 OPT=options/FreeMEF.yml bash train.sh
+```
+
+**Manual launch (equivalent):**
+
+```bash
+CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=4321 \
   FreeMEF/train.py \
   -opt options/FreeMEF.yml \
   --launcher pytorch --auto_resume
@@ -79,12 +112,32 @@ CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=XXXX \
 
 💡 **Tips:**
 
-- Replace `<path_to_train_yaml>` with your config
-- Adjust GPUs/ports/checkpointing as needed
+- `train.sh` auto-sets `PYTHONPATH` and derives `nproc_per_node` from `GPUS`
+- `--auto_resume` resumes from the latest checkpoint automatically
+- Edit data paths / iterations / batch size in `options/FreeMEF.yml`
 
 ## ⚡ Inference
 
-> 🔗 Model weight download links: **TODO**
+> 🔗 Model weight download links: [Google Drive](https://drive.google.com/file/d/1Tg0xX2yUhtSUyt0rzfOHi1NekWiBP9zA/view?usp=sharing)
+
+**One-click test + evaluation** (each script runs `test.py` then `eval.py`):
+
+```bash
+# Kalantari
+bash test_evaluate_Kalantari.sh
+
+# SICE — automatically tests 2-/3-/5-frame inputs and evaluates each against the shared GT
+bash test_evaluate_SICE.sh
+```
+
+Override paths via environment variables, e.g.:
+
+```bash
+WEIGHTS=weights/FreeMEF.pth RESULT_DIR=result/Kalantari bash test_evaluate_Kalantari.sh
+
+# Only run a subset of SICE frame counts
+FRAMES="2 3" DATA_ROOT=datasets/SICE bash test_evaluate_SICE.sh
+```
 
 ### 📋 Key Arguments
 
@@ -153,7 +206,12 @@ python eval.py \
 If this repo helps your work, please cite:
 
 ```bibtex
-FreeMEF: A Flexible-Frame Transformer for Multi-Exposure Fusion
+@inproceedings{FreeMEF,
+    title={There and Back Again: A Flexible-Frame Transformer for Multi-Exposure Fusion},
+    author={Qu, Lishen and Liu, Yao and Zhou, Shihao and Liang, Jie and Zeng, Hui and Zhang, Lei and Yang, Jufeng},
+    booktitle={ECCV},
+    year={2025}
+}
 ```
 
 ---

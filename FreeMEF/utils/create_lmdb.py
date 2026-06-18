@@ -1,8 +1,8 @@
 import argparse
 from os import path as osp
 
-from FreeHDR.utils import scandir
-from FreeHDR.utils.lmdb_util import make_lmdb_from_imgs
+from FreeMEF.utils import scandir
+from FreeMEF.utils.lmdb_util import make_lmdb_from_imgs
 
 def prepare_keys(folder_path, suffix='png'):
     """Prepare image path list and keys for DIV2K dataset.

@@ -5,8 +5,8 @@ import torch
 from os import path as osp
 from torch.nn import functional as F
 
-from FreeHDR.data.transforms import mod_crop
-from FreeHDR.utils import img2tensor, scandir
+from FreeMEF.data.transforms import mod_crop
+from FreeMEF.utils import img2tensor, scandir
 
 
 def read_img_seq(path, require_mod_crop=False, scale=1):

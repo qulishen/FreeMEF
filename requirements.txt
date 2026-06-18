@@ -1,12 +1,32 @@
-mamba_ssm
-opencv-python-headless
-timm
-scipy
-einops
-accelerate
-lmdb
-staracc_cv
-ftfy
-tqdm
-Pillow
-tensorboard
+# FreeMEF 复现环境依赖（在 base 环境实测通过，Python 3.10）
+# 说明：
+#   - PyTorch / torchvision 为 CUDA 12.6 构建（A100-80GB 上测试），请按本机 CUDA 选择匹配版本
+#   - mamba_ssm 需与 torch/CUDA 版本匹配
+#   - opencv 使用 headless 版本（无显示依赖）
+#   - pyiqa 用于评估阶段计算 PSNR/SSIM/LPIPS
+
+# ---- 深度学习框架（按本机 CUDA 选择匹配 wheel）----
+torch==2.7.1
+torchvision==0.22.1
+torchaudio==2.7.1
+mamba_ssm==2.2.6.post3
+
+# ---- 模型/数据处理 ----
+timm==1.0.27
+scipy==1.14.1
+einops==0.8.2
+accelerate==1.1.0
+lmdb==1.4.1
+staracc_cv==1.0.23071117
+ftfy==6.2.3
+tqdm==4.67.3
+Pillow==12.2.0
+tensorboard==2.17.0
+numpy==1.26.4
+PyYAML==6.0.3
+natsort==8.4.0
+opencv-python-headless==4.7.0.72
+scikit-image==0.25.2
+
+# ---- 评估指标 ----
+pyiqa==0.1.15

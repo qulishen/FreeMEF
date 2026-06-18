@@ -21,32 +21,50 @@
 
 ## 🛠️ 环境配置
 
-### 1️⃣ 设置路径
+> ✅ 已在 Ubuntu + A100-80GB、Python 3.10、PyTorch 2.7.1 (CUDA 12.6) 环境实测通过。
+
+### 1️⃣ 创建环境
 
 ```bash
-export PYTHONPATH=<ABS_PATH>:$PYTHONPATH
+# 创建并激活一个干净的 Python 3.10 环境
+conda create -n freemef python=3.10 -y
+conda activate freemef
+
+# 进入仓库目录，并加入 PYTHONPATH（分布式训练必需）
+cd FreeMEF
+export PYTHONPATH=$(pwd):$PYTHONPATH
 ```
 
-### 2️⃣ 安装依赖
-
-- 🔥 选择匹配的 PyTorch/CUDA 版本
-- 🐍 安装 `mamba_ssm` wheel（需匹配 torch/CUDA 版本）
-- 👁️ 使用 `opencv-python-headless` 替代 `opencv-python`
-- 📦 安装额外依赖包：
+### 2️⃣ 安装 PyTorch（按本机 CUDA 选择）
 
 ```bash
-pip install timm scipy einops accelerate lmdb staracc_cv ftfy tqdm Pillow tensorboard
+# 示例：CUDA 12.6 构建，请按本机 CUDA 修改 index-url
+pip install torch==2.7.1 torchvision==0.22.1 torchaudio==2.7.1 \
+  --index-url https://download.pytorch.org/whl/cu126
 ```
 
-- 📋 项目依赖：
+### 3️⃣ 安装 `mamba_ssm`（需匹配 torch/CUDA）
+
+```bash
+# 方式 A：从 PyPI 安装（会现场编译 CUDA 算子，较慢）
+pip install mamba_ssm==2.2.6.post3
+
+# 方式 B（推荐）：安装与 torch/CUDA/python 匹配的预编译 wheel
+# 官方发布页下载：https://github.com/state-spaces/mamba/releases
+pip install mamba_ssm-2.2.6.post3+cu12torch2.7cxx11abiTRUE-cp310-cp310-linux_x86_64.whl
+```
+
+### 4️⃣ 安装其余依赖
 
 ```bash
 pip install -r requirements.txt
 ```
 
+> 💡 无显示的服务器请保留 `opencv-python-headless`（`requirements.txt` 已固定），不要安装 `opencv-python`。
+
 ## 📂 数据集
 
-> 🔗 数据集下载链接：**待补充**
+> 🔗 数据集下载链接：[Google Drive](https://drive.google.com/file/d/1Tg0xX2yUhtSUyt0rzfOHi1NekWiBP9zA/view?usp=sharing)
 
 将数据集放置在 `datasets/` 目录下，按序列结构组织：
 
@@ -71,8 +89,23 @@ datasets/
 
 ## 🏋️ 训练
 
+**一键启动（推荐）：**
+
 ```bash
-CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=XXXX \
+bash train.sh
+```
+
+通过环境变量覆盖 GPU / 端口 / 配置：
+
+```bash
+# 使用 4 张 GPU，自定义端口和配置文件
+GPUS=0,1,2,3 PORT=4321 OPT=options/FreeMEF.yml bash train.sh
+```
+
+**手动启动（等价命令）：**
+
+```bash
+CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=4321 \
   FreeMEF/train.py \
   -opt options/FreeMEF.yml \
   --launcher pytorch --auto_resume
@@ -80,12 +113,32 @@ CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=XXXX \
 
 💡 **提示：**
 
-- 将 `<path_to_train_yaml>` 替换为你的配置文件路径
-- 根据需要调整 GPU 数量/端口/检查点设置
+- `train.sh` 会自动设置 `PYTHONPATH`，并根据 `GPUS` 推断 `nproc_per_node`
+- `--auto_resume` 会自动从最新检查点续训
+- 数据路径 / 迭代次数 / batch size 在 `options/FreeMEF.yml` 中修改
 
 ## ⚡ 推理
 
-> 🔗 模型权重下载链接：**待补充**
+> 🔗 模型权重下载链接：[Google Drive](https://drive.google.com/file/d/1Tg0xX2yUhtSUyt0rzfOHi1NekWiBP9zA/view?usp=sharing)
+
+**一键测试 + 评估（每个脚本先 `test.py` 后 `eval.py`）：**
+
+```bash
+# Kalantari
+bash test_evaluate_Kalantari.sh
+
+# SICE —— 自动依次测试 2/3/5 帧输入，并分别与同一份 GT 做评估
+bash SICE_test_evaluate.sh
+```
+
+可通过环境变量覆盖路径，例如：
+
+```bash
+WEIGHTS=weights/FreeMEF.pth RESULT_DIR=result/Kalantari bash test_evaluate_Kalantari.sh
+
+# 只测试 SICE 的部分帧数
+FRAMES="2 3" DATA_ROOT=datasets/SICE bash SICE_test_evaluate.sh
+```
 
 ### 📋 关键参数
 
@@ -154,7 +207,12 @@ python eval.py \
 如果本仓库对您的工作有帮助，请引用：
 
 ```bibtex
-FreeMEF: A Flexible-Frame Transformer for Multi-Exposure Fusion
+@inproceedings{FreeMEF,
+    title={There and Back Again: A Flexible-Frame Transformer for Multi-Exposure Fusion},
+    author={Qu, Lishen and Liu, Yao and Zhou, Shihao and Liang, Jie and Zeng, Hui and Zhang, Lei and Yang, Jufeng},
+    booktitle={ECCV},
+    year={2025}
+}
 ```
 
 ---

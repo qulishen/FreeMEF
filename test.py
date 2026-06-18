@@ -16,20 +16,19 @@ import random
 import cv2
 from natsort import natsorted
 from glob import glob
-from FreeMEF.archs.HDR_S1_arch import HDR_S1
 from skimage import img_as_ubyte
 from basicsr.utils import imwrite as save_img
 from pdb import set_trace as stx
 from FreeMEF.archs.FreeMEF_arch import FreeMEF
 parser = argparse.ArgumentParser(description='Single Image Motion Deblurring using Restormer')
 # 
-parser.add_argument('--input_dir', default='FreeMEF/datasets/SICE/input_resize_2frame', type=str, help='Directory of validation images')
+parser.add_argument('--input_dir', default='datasets/Kalantari_MEF/Testing_input', type=str, help='Directory of validation images')
 parser.add_argument('--result_dir', default='./results/', type=str, help='Directory for results')
-parser.add_argument('--weights', default='FreeMEF/experiments/train_FreeMEF_on_Kalantari/models/net_g_last.pth', type=str, help='Path to weights')
+parser.add_argument('--weights', default='weights/FreeMEF.pth', type=str, help='Path to weights')
 parser.add_argument('--dataset', default='Kalantari', type=str, help='Test Dataset') # ['GoPro', 'HIDE', 'RealBlur_J', 'RealBlur_R']
 parser.add_argument('--tile', default=0, type=int, help='Tile size for sliding-window inference. 0 disables tiling.')
 parser.add_argument('--tile_stride', default=0, type=int, help='Stride for sliding-window inference. 0 defaults to tile size.')
-parser.add_argument('--opt', default='FreeMEF/options/FreeMEF.yml', type=str)
+parser.add_argument('--opt', default='options/FreeMEF.yml', type=str)
 parser.add_argument('--arch', default='FreeMEF', type=str)
 args = parser.parse_args()
 
@@ -129,10 +128,10 @@ with torch.no_grad():
             selected_others = [frame_paths[0], frame_paths[-1]]
         elif num_frames == 5:
             base_frame = frame_paths[2]
-            # selected_others = [frame_paths[0], frame_paths[1], frame_paths[-2],frame_paths[-1]]
-            # selected_others = [frame_paths[-1], frame_paths[-2], frame_paths[1],frame_paths[0]]
-            selected_others = [frame_paths[0], frame_paths[-1], frame_paths[1],frame_paths[-2]]
-
+            selected_others = [frame_paths[0], frame_paths[1], frame_paths[-2],frame_paths[-1]]  # 順序I EV-2 EV-1 EV+1 EV+2
+            # selected_others = [frame_paths[-1], frame_paths[-2], frame_paths[1],frame_paths[0]] # 順序II EV+2 EV+1 EV-1 EV-2
+            # selected_others = [frame_paths[1], frame_paths[-2], frame_paths[0],frame_paths[-1]] # 順序III EV-1 EV+1 EV-2 EV+2
+            # selected_others = [frame_paths[0], frame_paths[-1], frame_paths[1],frame_paths[-2]] #順序IV EV-2 EV+2 EV-1 EV+1
         else:
             # 其他长度时回退为以中间帧为主，其余为辅
             mid = num_frames // 2

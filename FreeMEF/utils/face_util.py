@@ -4,7 +4,7 @@ import os
 import torch
 from skimage import transform as trans
 
-from FreeHDR.utils import imwrite
+from FreeMEF.utils import imwrite
 
 try:
     import dlib

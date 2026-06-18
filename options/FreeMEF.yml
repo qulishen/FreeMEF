@@ -19,8 +19,6 @@ datasets:
     filename_tmpl: '{}'
     io_backend:
       type: disk
-
-
     num_worker_per_gpu: 8
     batch_size_per_gpu: 2
     mini_batch_sizes: [2,2,2,2,2,2]             # Batch size per gpu   
