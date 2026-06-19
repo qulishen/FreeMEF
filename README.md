@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="logo1.png" alt="FreeMEF Logo" width="200"/>
+  <img src="logo.png" alt="FreeMEF Logo" width="200"/>
 </p>
 <h1 align="center">🎬 There and Back Again: A Flexible-Frame Transformer for Multi-Exposure Fusion 🚀</h1>
 
