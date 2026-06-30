@@ -211,7 +211,7 @@ If this repo helps your work, please cite:
     title={There and Back Again: A Flexible-Frame Transformer for Multi-Exposure Fusion},
     author={Qu, Lishen and Liu, Yao and Zhou, Shihao and Liang, Jie and Zeng, Hui and Zhang, Lei and Yang, Jufeng},
     booktitle={ECCV},
-    year={2025}
+    year={2026}
 }
 ```
 
