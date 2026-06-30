@@ -6,6 +6,7 @@
 <p align="center">
   <a href="README.md"><img src="https://img.shields.io/badge/Language-English-blue" alt="English"></a>
   <a href="README_cn.md"><img src="https://img.shields.io/badge/语言-中文-red" alt="中文"></a>
+  <a href="https://arxiv.org/abs/2606.27905"><img src="https://img.shields.io/badge/arXiv-2606.27905-b31b1b?logo=arxiv&logoColor=white" alt="arXiv"></a>
 </p>
 
 ---
